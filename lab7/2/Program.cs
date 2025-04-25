@@ -98,7 +98,7 @@ class FileHash {
 
       // bool same = hash.SequenceEqual(cHash);
       string storedHash = enc.GetString(cHash);
-      bool same = storedHash.Equals(clrHash);
+      bool same = storedHash.Equals(clearHash);
       Console.WriteLine($"The hash is {(same ? "" : "NOT ")}correct.");
     } else {
       // setFileBytes(Args[2], hash);
