@@ -53,7 +53,7 @@ public class IOController : Controller
         if (user == null) return this.RedirectToAction("Logowanie", "IO");
 
         ViewData["login"] = user.login;
-        List<Data> dataList = _context.Data.Where(d => d.user.Id == userId).ToList();
+        List<Data> dataList = _context.Data.Where(d => d.user.Id == user.Id).ToList();
 
         DataViewModel dvm = new DataViewModel(dataList);
 
@@ -98,8 +98,10 @@ public class IOController : Controller
         Data? cdata = await _context.Data.FindAsync(id);
         if (cdata == null) ViewData["error"] = "Nie znaleziono danej";
         else {
-            _context.Data.Remove(cdata);
-            await _context.SaveChangesAsync();
+            if (cdata.user.Id == user.Id) {
+                _context.Data.Remove(cdata);
+                await _context.SaveChangesAsync();
+            }
         }
         return await Panel();
     }
